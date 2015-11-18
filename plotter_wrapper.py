@@ -11,8 +11,8 @@ prsr.add_option("-o", "--output", dest="path", metavar="PATH", default=os.getcwd
 
 DEVNULL = open(os.devnull, 'wb')
 
-extracter = os.path.join(os.path.dirname(os.path.abspath(__file__)),extract.curves.py)
-plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),plot_curves.r) 
+extracter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"extract_curves.py")
+plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves.r") 
 
 
 call(["python", extracter], stdout=DEVNULL, stderr=DEVNULL)
