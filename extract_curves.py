@@ -19,7 +19,7 @@ def annotate_pos(table, plate_no):
 	return plate
 
 # This fuction extracts the curves
-def extract_curves(curves, meta_data, plate_no, outpath):
+def extract_curves(curves, meta_data, plate_no, outpath, norm):
         for ORF in meta_data[0].unique():
 		files.append(ORF)
 		temp_table = meta_data.loc[meta_data[0] == ORF]
@@ -29,6 +29,12 @@ def extract_curves(curves, meta_data, plate_no, outpath):
 			entry = str(ORF) + str(i)
 			df[entry] = curves[plate_no][row][col]
 			i = i + 1
+		if bool(norm):
+			df = norm_amp(df)
 		df.to_csv(os.path.join(os.path.abspath(outpath),str(ORF)))
-		
+
+def norm_amp(df):
+	z = max(df.loc[0,]) - df.loc[0,]
+	df = z + df
+	return df
 
