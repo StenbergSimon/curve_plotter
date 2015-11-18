@@ -10,6 +10,7 @@ prsr.add_option("-m", "--meta", dest="meta", metavar="FILE", help="Meta data in 
 prsr.add_option("-i", "--input", dest="curves", metavar="FILE", help="Input file with curve data. Select either curves_raw.npy for raw curves, or curves_smooth.npy for smoothened curves.")
 prsr.add_option("-p", "--plate", dest="no", metavar="INT", help="Plate (0-3) to process")
 prsr.add_option("-o", "--output", dest="path", metavar="PATH", default=os.getcwd(), help="Output path Default:%default")
+prsr.add_option("-n", "--norm_amp", dest="norm", metavar="BOOLEAN", default="False", help="Set True to push amplitude of all curves to the highest one. Default:%default")
 (options, args) = prsr.parse_args()
 
 if __name__ == "__main__":
@@ -19,7 +20,7 @@ if __name__ == "__main__":
 	curves = np.load(os.path.abspath(options.curves))
 	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves.r") 
 	plate = extract_curves.annotate_pos(meta_data, options.no)
-	extract_curves.extract_curves(curves, plate, options.no, options.path)
+	extract_curves.extract_curves(curves, plate, options.no, options.path, options.norm)
 	
 	for data in extract_curves.files:	
 		call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
