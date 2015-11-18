@@ -15,4 +15,5 @@ extracter = os.path.join(os.path.dirname(os.path.abspath(__file__)),extract.curv
 plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),plot_curves.r) 
 
 
-call(["python", extracter, ], stdout=DEVNULL, stderr=DEVNULL)
+call(["python", extracter], stdout=DEVNULL, stderr=DEVNULL)
+call(["Rscript", plotter], stdout=DEVNULL, stderr=DEVNULL)
