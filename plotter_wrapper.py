@@ -11,6 +11,7 @@ prsr.add_option("-i", "--input", dest="curves", metavar="FILE", help="Input file
 prsr.add_option("-p", "--plate", dest="no", metavar="INT", help="Plate (0-3) to process")
 prsr.add_option("-o", "--output", dest="path", metavar="PATH", default=os.getcwd(), help="Output path Default:%default")
 prsr.add_option("-n", "--norm_amp", dest="norm", metavar="BOOLEAN", default="False", help="Set True to push amplitude of all curves to the highest one. Default:%default")
+prsr.add_option("-z", "--overlay", dest="over", metavar="BOOLEAN", default="False", help="Plot overlay? Default:%default")
 (options, args) = prsr.parse_args()
 
 if __name__ == "__main__":
@@ -18,13 +19,20 @@ if __name__ == "__main__":
 
 	meta_data = pd.read_excel(os.path.abspath(options.meta), sheetname=None, header=None)
 	curves = np.load(os.path.abspath(options.curves))
-	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves_2.r") 
+	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves.r") 
+	plotter_over = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves_overlay.r")
 	plate = extract_curves.annotate_pos(meta_data, options.no)
 	extract_curves.extract_curves(curves, plate, options.no, options.path, options.norm)
 	fh = open(os.path.join(options.path,"list.txt"),"w")
 	for data in extract_curves.files:	
 		fh.write("%s\n" % data)
-		#call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
-		#call(["rm", str(data)])
+		if bool(options.over):
+			call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
+			call(["rm", str(data)])
+		
 	fh.close()
-	call(["Rscript", str(plotter), os.path.join(options.path,"list.txt")])
+	if not bool(options.over):
+		call(["Rscript", str(plotter), os.path.join(options.path,"list.txt")])
+		for data in extract_curves.files:
+			call(["rm", str(data)])
+	
