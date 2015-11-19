@@ -25,7 +25,7 @@ if __name__ == "__main__":
 	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves.r") 
 	plotter_over = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves_overlay.r")
 	plate = extract_curves.annotate_pos(meta_data, options.no)
-	extract_curves.extract_curves(curves, plate, options.no, options.path, options.norm)
+	extract_curves.extract_curves(curves, plate, options.no, options.path, options.norm,options.over)
 	fh = open(os.path.join(options.path,"list.txt"),"w")
 	for data in extract_curves.files:	
 		fh.write("%s\n" % data)
@@ -38,4 +38,4 @@ if __name__ == "__main__":
 		call(["Rscript", str(plotter_over), os.path.join(options.path,"list.txt")],stdout=DEVNULL, stderr=DEVNULL)
 		for data in extract_curves.files:
 			call(["rm", str(data)])
-	
+	call(["rm", os.path.join(options.path,"list.txt")])	
