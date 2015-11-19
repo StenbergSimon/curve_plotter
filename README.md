@@ -66,7 +66,7 @@ output:
 
 	python plotter_wrapper.py -m meta_data.xlsx -i curves_smooth.npy -p 0 -n -r
 
-The above command will extract all curves with the same meta data annotation in meta_data.xlsx. It will then normalize the curves in y-led and plot the average curve for each meta data annotation and the standard deviation as a shaded area around the line. It will only keep the pdfs with plots.
+The above command will extract all curves with the same meta data annotation in meta_data.xlsx for plate 1 (0). It will then normalize the curves in y-led and plot the average curve for each meta data annotation and the standard deviation as a shaded area around the line. It will only keep the pdfs with plots.
 
 	python plotter_wrapper.py -m meta_data.xlsx -i curves_smooth.npy -p 0 -n -z
 
