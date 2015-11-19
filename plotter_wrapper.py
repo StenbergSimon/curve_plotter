@@ -11,10 +11,8 @@ prsr.add_option("-i", "--input", dest="curves", metavar="FILE", help="Input file
 prsr.add_option("-p", "--plate", dest="no", metavar="INT", help="Plate (0-3) to process")
 prsr.add_option("-o", "--output", dest="path", metavar="PATH", default=os.getcwd(), help="Output path Default:%default")
 prsr.add_option("-n", dest="norm", action="store_true", help="Set True to push amplitude of all curves to the highest one.")
-prsr.add_option("-z", dest="over", action="store_true", help="plot overlay")
-
-#prsr.add_option("-n", "--norm_amp", dest="norm", metavar="BOOLEAN", default="False", help="Set True to push amplitude of all curves to the highest one. Default:%default")
-#prsr.add_option("-z", "--overlay", dest="over", metavar="BOOLEAN", default="False", help="Plot overlay? Default:%default")
+prsr.add_option("-z", dest="over", action="store_true", help="Plot overlay?")
+prsr.add_option("-r", dest="rm", action="store_true", help="Remove data files?")
 (options, args) = prsr.parse_args()
 
 if __name__ == "__main__":
@@ -31,11 +29,13 @@ if __name__ == "__main__":
 		fh.write("%s\n" % data)
 		if not options.over:
 			call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
-			call(["rm", str(data)])
+			if options.rm:
+				call(["rm", str(data)])
 		
 	fh.close()
 	if options.over:
 		call(["Rscript", str(plotter_over), os.path.join(options.path,"list.txt")],stdout=DEVNULL, stderr=DEVNULL)
-		for data in extract_curves.files:
-			call(["rm", str(data)])
+		if options.rm:
+			for data in extract_curves.files:
+				call(["rm", str(data)])
 	call(["rm", os.path.join(options.path,"list.txt")])	
