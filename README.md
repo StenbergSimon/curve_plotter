@@ -4,24 +4,24 @@ Plot scan-o-matic curves of a specific plate, grouped by meta data
 
 By: Simon Stenberg, 2015
 
-# Dependencies:
+## Dependencies:
 
-_python:_
+__python:__
 pandas
 numpy
 
-_R:_
+__R:__
 Rmisc
 ggplot2
 
-# Install:
+## Install:
 
 In the terminal. Write:
 
 	git clone [URL found on the right panel]
 
 
-# Instructions:
+## Instructions:
 
 You need to have the numpy curves file from scan-o-matic. Either curves_raw.npy or curves_smooth.npy should work.
 
@@ -62,11 +62,16 @@ output:
 * use -z to plot all curves in one plot, color coded for each strain/meta-data
 * use -r to keep all data files. The data files are simple text files with a column for each curve for each replicate, theese will be saved in ouput path.
 
-# Examples
+## Examples
 
 	python plotter_wrapper.py -m meta_data.xlsx -i curves_smooth.npy -p 0 -n -r
 
 The above command will extract all curves with the same meta data annotation in meta_data.xlsx for plate 1 (0). It will then normalize the curves in y-led and plot the average curve for each meta data annotation and the standard deviation as a shaded area around the line. It will only keep the pdfs with plots.
+
+__Example Output:__
+
+![EXAMPLE](https://raw.github.com/StenbergSimon/curve_plotter/blob/master/example.pdf)
+
 
 	python plotter_wrapper.py -m meta_data.xlsx -i curves_smooth.npy -p 0 -n -z
 
