@@ -70,7 +70,7 @@ The above command will extract all curves with the same meta data annotation in 
 
 __Example Output:__
 
-![EXAMPLE](/example.pdf?raw=true)
+![EXAMPLE](/example.png)
 
 
 	python plotter_wrapper.py -m meta_data.xlsx -i curves_smooth.npy -p 0 -n -z
