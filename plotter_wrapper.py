@@ -18,11 +18,13 @@ if __name__ == "__main__":
 
 	meta_data = pd.read_excel(os.path.abspath(options.meta), sheetname=None, header=None)
 	curves = np.load(os.path.abspath(options.curves))
-	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves.r") 
+	plotter = os.path.join(os.path.dirname(os.path.abspath(__file__)),"plot_curves_2.r") 
 	plate = extract_curves.annotate_pos(meta_data, options.no)
 	extract_curves.extract_curves(curves, plate, options.no, options.path, options.norm)
-	fh = open(os.path.join(options.path,"list"),w)
+	fh = open(os.path.join(options.path,"list.txt"),"w")
 	for data in extract_curves.files:	
 		fh.write("%s\n" % data)
-		call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
-		call(["rm", str(data)])
+		#call(["Rscript", str(plotter), str(data)],stdout=DEVNULL, stderr=DEVNULL)
+		#call(["rm", str(data)])
+	fh.close()
+	call(["Rscript", str(plotter), os.path.join(options.path,"list.txt")])
